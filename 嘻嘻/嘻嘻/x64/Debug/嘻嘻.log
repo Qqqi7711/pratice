@@ -1,0 +1,11 @@
+﻿  嘻嘻.c
+C:\Users\gmh\Desktop\code\嘻嘻\嘻嘻\嘻嘻.c(21,11): warning C4129: “ ：: 不可识别的字符转义序列
+C:\Users\gmh\Desktop\code\嘻嘻\嘻嘻\嘻嘻.c(25,11): warning C4566: 由通用字符名称“\u0E51”表示的字符不能在当前代码页(936)中表示出来
+C:\Users\gmh\Desktop\code\嘻嘻\嘻嘻\嘻嘻.c(25,11): warning C4566: 由通用字符名称“\u2022”表示的字符不能在当前代码页(936)中表示出来
+C:\Users\gmh\Desktop\code\嘻嘻\嘻嘻\嘻嘻.c(25,11): warning C4566: 由通用字符名称“\u0300”表示的字符不能在当前代码页(936)中表示出来
+C:\Users\gmh\Desktop\code\嘻嘻\嘻嘻\嘻嘻.c(25,11): warning C4566: 由通用字符名称“\u3142”表示的字符不能在当前代码页(936)中表示出来
+C:\Users\gmh\Desktop\code\嘻嘻\嘻嘻\嘻嘻.c(25,11): warning C4566: 由通用字符名称“\u0301”表示的字符不能在当前代码页(936)中表示出来
+C:\Users\gmh\Desktop\code\嘻嘻\嘻嘻\嘻嘻.c(25,11): warning C4566: 由通用字符名称“\u0648”表示的字符不能在当前代码页(936)中表示出来
+C:\Users\gmh\Desktop\code\嘻嘻\嘻嘻\嘻嘻.c(25,11): warning C4566: 由通用字符名称“\u2727”表示的字符不能在当前代码页(936)中表示出来
+C:\Users\gmh\Desktop\code\嘻嘻\嘻嘻\嘻嘻.c(40,24): warning C4013: “time”未定义；假设外部返回 int
+  嘻嘻.vcxproj -> C:\Users\gmh\Desktop\code\嘻嘻\x64\Debug\嘻嘻.exe
