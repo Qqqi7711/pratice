@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>抓蟑螂小游戏</title>
+    <style>
+        body { margin: 0; overflow: hidden; background: #F5F5F5; }
+        #gameArea {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .cockroach {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            user-select: none;
+            background: url('https://img.tukuppt.com/png_preview/00/55/01/cqTXJhBx6C.jpg!/fw/780') no-repeat center/cover;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameArea"></div>
+    <script>
+        // 进入网页时弹出提示
+        alert("快来抓蟑螂！用鼠标点击蟑螂进行抓捕。");
+
+        var cockroachCount = 20; // 蟑螂数量
+        var cockroaches = [];
+        var area = document.getElementById('gameArea');
+        var areaW = window.innerWidth;
+        var areaH = window.innerHeight;
+
+        // 随机生成蟑螂
+        for (var i = 0; i < cockroachCount; i++) {
+            var x = Math.random() * (areaW - 60);
+            var y = Math.random() * (areaH - 60);
+            var dx = (Math.random() - 0.5) * 6 + 1; // -2~4之间的速度
+            var dy = (Math.random() - 0.5) * 6 + 1;
+            var el = document.createElement('div');
+            el.className = 'cockroach';
+            el.style.left = x + 'px';
+            el.style.top = y + 'px';
+            el.title = '点击抓住蟑螂！';
+            // 绑定点击事件
+            el.onclick = (function(el, i) {
+                return function(e) {
+                    e.stopPropagation();
+                    alert('你抓住了一只蟑螂！');
+                    el.remove();
+                    cockroaches[i].el = null; // 标记已被抓
+                }
+            })(el, i);
+            area.appendChild(el);
+            cockroaches.push({x: x, y: y, dx: dx, dy: dy, el: el});
+        }
+
+        // 移动蟑螂
+        function moveCockroaches() {
+            for (var i = 0; i < cockroaches.length; i++) {
+                var c = cockroaches[i];
+                if (!c.el) continue; // 已被抓
+                c.x += c.dx;
+                c.y += c.dy;
+                // 碰到边界反弹
+                if (c.x < 0 || c.x > areaW - 60) c.dx = -c.dx;
+                if (c.y < 0 || c.y > areaH - 60) c.dy = -c.dy;
+                c.el.style.left = c.x + 'px';
+                c.el.style.top = c.y + 'px';
+            }
+            requestAnimationFrame(moveCockroaches);
+        }
+        moveCockroaches();
+
+        // 窗口大小变化时更新区域大小
+        window.onresize = function() {
+            areaW = window.innerWidth;
+            areaH = window.innerHeight;
+        };
+    </script>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>三色速查网页</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background: #f8f8f8; }/*设置Arial字体，消除页面边缘的默认空白，背景浅灰*/
+        .cover {/*封面*/
+            background:url('images/cover.png') no-repeat center;
+			background-size:cover;/*图片自适应填充整个画面*/
+            padding: 500px 300px 500px 300px;/*元素内部间距,上，右，下，小，即cover大小*/
+        }
+        .desc {/*description说明*/
+            max-width: 700px;
+            margin: 30px auto 20px auto;/*上右下左，左右自动分配，居中,适配不同屏幕尺寸*/
+            background: #fff;/*白色背景*/
+            border-radius: 10px;/*圆角*/
+            padding: 24px 32px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);/*阴影，水平偏移，垂直偏移，模糊半径（8px，柔和阴影），颜色（黑色半透明）*/
+            font-size: 18px;
+            color: #333;/*深灰色*/
+        }
+        .topics {/*父元素，将内部卡片排列成一行*/
+            display: flex;/*采用flex布局*/
+            flex-wrap: wrap;/*元素空间不足时换行*/
+            justify-content: center;/*居中*/
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .topic {
+            background: #fff;
+            border-radius: 8px;/*边角变圆，比较好看*/
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);/*阴影*/
+            padding: 24px 32px;
+            font-size: 22px;
+            cursor: pointer;/*光标：指针，暗示用户可点击，为后续添加点击事件做准备，鼠标变小手*/
+            min-width: 180px;
+            text-align: center;/*文本排列居中*/
+            transition: box-shadow 0.2s;/*为阴影变化添加0.2秒的过度动画*/
+        }
+        .topic:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.12); }/*鼠标悬停，阴影加深*/
+        .subtopics, .cases { max-width: 700px; margin: 0 auto; }
+        .subtopic {
+            background: #e3e3e3;/*浅灰色背景*/
+            margin: 12px 0;
+            padding: 14px 20px;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .subtopic:hover { background: #ffd966; }/*hover：悬停，悬停时候背景变成黄色*/
+        .back { color: #1e90ff; cursor: pointer; margin: 20px 0; display: inline-block; }/*链接颜色蓝色，*/
+        .color-case {
+            display: flex;
+            align-items: center;/*居中排列物品*/
+            margin: 18px 0;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            padding: 16px;
+        }
+        .color-block {/*颜色样本展示*/
+            width: 60px; height: 60px; border-radius: 8px; margin-right: 18px;
+            border: 2px solid #eee;
+        }
+        .color-info { font-size: 16px; color: #333; }/*颜色信息*/
+		.case-img {/*颜色案例*/
+            display: block;
+            margin: 16px auto 0 auto;
+            max-width: 100%;/*确保容器不会超出容器宽度*/
+            height: auto;/*保持图片原始宽高比*/
+            border-radius: 6px;
+            border: 1px solid #eee;/*浅灰色边框*/
+            background: #fafafa;
+        }
+    </style>
+</head>
+<body>
+	<div class="cover" ></div>
+   
+    <div class="desc">
+        本网页来源于印慈江久多衣的《3色配色速查手册》，收录了8个专题，和一些常用主题，旨在帮助读者快速查找有效的三色色彩搭配。<br>
+		三色搭配要点：<br>
+		基调色（BASE COLOR)：使用量最大的颜色。设计的整体氛围，取决于三色配色中的基调色。<br>
+		强调色（ACCENT COLOR）：使用量最小的颜色。强调色的使用能够避免内容过于分散，吸引注意力，丰富视觉效果。通常会选择对比强烈、显眼的颜色。<br>
+		副色（SUB COLOR)：使用量第二多的颜色。结合基调色，能绘制出更为生动的画面，避免设计过于单调。<br>
+        点击下方专题，选择小主题，即可查看三色配色案例，助你轻松配色、提升设计效率。
+    </div>
+    <div id="main"></div>
+
+    <script>
+        const data = [
+            {
+                name: "自然风：天然又温柔的感觉",
+                subtopics: [
+                    {
+                        name: "01轻柔治愈的奶油色",
+                        cases: [
+                            { colors: ["#f7c3bf", "#8acbcf", "#efebe0"], desc: "低明度的浅色系组合，给人平静又温柔的感觉。" ,img:"images/A01.png" }
+                        ]
+                    },
+                    {
+                        name: "02本白基调营造温暖氛围",
+                        cases: [
+                            { colors: ["#f3eed5", "#e4af9b", "#d4dfbb"], desc: "将象牙色作为底色，整体呈现出恬淡温柔的感觉。",img:"images/A02.png" }
+                        ]
+                    },
+					{
+						name: "03吸引成熟女性的配色",
+						cases: [
+							{colors:["#efd4cd","#604461","#b9cdbf"],desc:"浓重的紫，点缀于恬静感十足的两种颜色之上，实现理想的吸睛效果。",img:"images/A03.png"}
+						]
+					},
+					{
+						name:"04惹人喜爱的婴儿",
+						cases:[
+							{colors:["#fff7c9","#f7c4d4","#c0e4f2"],desc:"明亮的浅色系组合，营造柔和可爱的氛围。这是人人都会喜欢的温柔用色。",img:"images/A04.png"}
+						]
+					},
+					{
+						name:"05微甜的自然潇洒风",
+						cases:[
+							{colors:["#8ab0bc","#f8f5b5","#e6afcf"],desc:"稍显烟熏感的配色，降低甜度，给人舒适感。",img:"images/A05.png"}
+						]
+					},
+					{
+						name:"06包容的大地色",
+						cases:[
+							{colors:["#e4c6a6","#8e775d","#e6cd8c"],desc:"大地色系令人联想到泥土与树木，传递着大自然的包容力。适合营造平静的氛围。",img:"images/A06.png"}
+						]
+					},
+					{
+						name:"07手工艺术风的休闲配色",
+						cases:[
+							{colors:["#e1b985","#fdd23e","#00a08d"],desc:"以牛皮纸的颜色为基调，给人休闲又充满质感的感觉。",img:"images/A07.png"}
+						]
+					},
+					{
+						name:"08高贵典雅的皮革色",
+						cases:[
+							{colors:["#70372c","#dc5f36","#f7e3af"],desc:"富有光泽感的深色皮革色，搭配出自然而成熟的风格。",img:"images/A08.png"}
+						]
+					},
+					{
+						name:"09时髦的灰调工艺",
+						cases:[
+							{colors:["#dcd5c8","#a2a2ad","#1f1e63"],desc:"由灰色牛皮纸联想到的沉稳配色，给人时尚简约的印象。",img:"images/A09.png"}
+						]
+					},
+					{
+						name:"10令人情绪高涨的活泼粉调",
+						cases:[
+							{colors:["#ecbbb5","#bee0cc","#e99bc1"],desc:"温和的米粉与饱和度稍高的粉相搭配，张弛有度。",img:"images/A10.png"}
+						]
+					},
+					{
+						name:"11明亮的居家自然风",
+						cases:[
+							{colors:["#e0f1f1","#5188b1","#aed265"],desc:"以光线充足的清爽房间为灵感配色，营造自然轻松的休闲感。",img:"images/A11.png"}
+						]
+					},
+					{
+						name:"12如香氛般轻盈温柔",
+						cases:[
+							{colors:["#d7d486","#d2e7bf","#f3e7ea"],desc:"以草药为灵感，富有清洁感的柔和配色，给人轻盈温柔的感觉。",img:"images/A12.png"}
+						]
+					},
+					{
+						name:"13娇嫩欲滴的新叶",
+						cases:[
+							{colors:["#d9eaec","#74a64c","#bcd537"],desc:"明亮的鲜绿，令人联想起初春的芽。适合清新的设计。",img:"images/A13.png"}
+						]
+					},
+					{
+						name:"14绚丽的热带风情",
+						cases:[
+							{colors:["#eb6143","#ffe33f","#984f9b"],desc:"以热带植物为灵感的鲜艳配色，给人积极而勇敢的感觉。",img:"images/A14.png"}
+						]
+					}
+                ]
+            },
+            {
+                name: "波普风：绚烂多彩，振奋精神",
+                subtopics: [
+                    {
+                        name: "01鲜艳的糖果色",
+                        cases: [
+                            { colors: ["#d80c18", "#a660a3", "#ea6096"], desc: "鲜艳的配色给人兴奋而刺激的感觉。整体为红色系，营造少女感。",img:"images/B01.png" }
+                        ]
+                    },
+					{
+						name:"02令人精神饱满的流行炫彩",
+						cases:[
+							{colors:["#ef8bb6","#ffda2a","#31b6a0"],desc:"精神饱满的绚丽配色，用于排队相关的设计再合适不过。",img:"images/B02.png"}
+						]
+					},
+					{
+						name:"03果味十足的维生素色系",
+						cases:[
+							{colors:["#ffee7d","#f49c2d","#c4d700"],desc:"如新鲜水果般鲜艳吸睛 的配色，彰显着健康的能量。",img:"images/B03.png"}
+						]
+					},
+					{
+						name:"04怀旧玩具箱",
+						cases:[
+							{colors:["#ebd880","#c03619","#00979b"],desc:"低饱和度的红与绿是互补色组合，抒发温暖的怀旧情结。",img:"images/B04.png"}
+						]
+					},
+					{
+						name:"05复刻昭和之色",
+						cases:[
+							{colors:["#2e499d","#ffde00","#d13209"],desc:"以昭和时代工艺品为灵感的配色。乍看之下是有些新奇的色彩搭配，却会让人产生“怀念”的感觉。",img:"images/B05.png"}
+						]
+					},
+					{
+						name:"06欢乐惬意的亲子时光",
+						cases:[
+							{colors:["#f6b7aa","#0e536d","#fae06a"],desc:"由柔和色彩组合而成的波普风配色较为少见，它点缀着与幼儿共处的温馨一刻。",img:"images/B06.png"}
+						]
+					},
+					{
+						name:"07书写童趣的彩蜡",
+						cases:[
+							{colors:["#f08437","#00a040","#e6191c"],desc:"以彩色蜡笔为灵感的配色，营造活泼而欢乐的氛围。宛如儿时阅读过的绘本，令人涌起想要嬉闹的心情。",img:"images/B07.png"}
+						]
+					},
+					{
+						name:"08打造少女感的棉花糖色",
+						cases:[
+							{colors:["#f8ccd1","#c2e2d2","#c9c2e0"],desc:"甜系浅色如同棉花糖般软绵绵的，少女感十足。",img:"images/B08.png"}
+						]
+					},
+					{
+						name:"09与礼物绝配的温柔粉色",
+						cases:[
+							{colors:["#fff8ee","#f39f89","#f9cfd1"],desc:"温柔的粉色组合，给予收礼物的人一种美好的心情。体现着克制的成熟，不会过于甜腻。",img:"images/B09.png"}
+						]
+					},
+					{
+						name:"10鲜艳的运动系色彩",
+						cases:[
+							{colors:["#64c0ab","#4d4398","#e85289"],desc:"与运动主题贴合的明快色彩。以冷色系为基调，给人干练的印象。",img:"images/B10.png"}
+						]
+					},
+					{
+						name:"11活泼的户外风格",
+						cases:[
+							{colors:["#ed6d46","#fff100","#2bb7b3"],desc:"对比强烈的配色，给人生机勃勃的印象。鲜艳的黄色，无论用于哪种配色方案，都能发挥很棒的吸睛作用。",img:"images/B11.png"}
+						]
+					},
+					{
+						name:"12打造轻熟海军风的藏青色",
+						cases:[
+							{colors:["#002a5b","#d7000f","#eaf6fd"],desc:"以法国国旗为灵感，以淡蓝色代替白色，搭配浓烈的藏青色，彰显时髦却不突兀的轻熟质感。",img:"images/B12.png"}
+						]
+					},
+					{
+						name:"13色彩斑斓的波普丛林",
+						cases:[
+							{colors:["#ffeb27","#e8382f","#13ae67"],desc:"以丛林动植物为灵感的配色，彰显着斑斓而热烈的波普时尚。",img:"images/B13.png"}
+						]
+					},
+					{
+						name:"14低调华丽的霓虹灯",
+						cases:[
+							{colors:["#dd5b9c","#d3e7f5","#f3abc0"],desc:"以霓虹灯为灵感的艳粉色调。选择了压低明度的单色，使配色更为和谐，时髦度也有所提升。",img:"images/B14.png"}
+						]
+					},
+					{
+						name:"15二十世纪80年代插画风配色",
+						cases:[
+							{colors:["#f3adc5","#fff2b2","#a7d9dd"],desc:"既流行又不失复古，以20世纪80年代插画为灵感的配色。极其适合营造可爱、梦幻的氛围。",img:"images/B15.png"}
+						]
+					},
+					{
+						name:"16充满幸福气息的婚礼",
+						cases:[
+							{colors:["#fff6e4","#84ccce","#f9d2d9"],desc:"接近米黄的底色结合温柔的青与粉，完美贴合婚礼明朗而幸福的氛围。",img:"images/B16.png"}
+						]
+					},
+					{
+						name:"17明媚欢快的生日派对",
+						cases:[
+							{colors:["#faca7b","#f096a0","#e0f1f4"],desc:"温柔的粉与黄，给人明媚而幸福的感受。推荐用于排队装饰、礼物包装的设计。",img:"images/B17.png"}
+						]
+					}
+                ]
+            },
+            {
+                name: "典雅风：营造成熟高雅的氛围",
+                subtopics: [
+                    {
+                        name: "01点亮单调的那抹红",
+                        cases: [
+                            { colors: ["#494544", "#c41a30", "#bac8c6"], desc: "低调的底色与点睛之红形成强烈对比，增加时髦度。" ,img:"images/C01.png"}
+                        ]
+                    },
+					{
+						name:"02有品的绅士配色",
+						cases:[
+							{colors:["#092237","#4977bc","#6a4928"],desc:"以文稳重的色彩为基调，点缀蓝色，彰显成熟而睿智的气质。",img:"images/C02.png"}
+						]
+					},
+					{
+						name:"03打造高级质感",
+						cases:[
+							{colors:["#d4b572","#003740","#b15a5e"],desc:"金色为基调色，再选用深邃的配色，即奢华又不失典雅。",img:"images/C03.png"}
+						]
+					},
+					{
+						name:"04闪耀的香槟和珍珠",
+						cases:[
+							{colors:["#d1ae15","#e7be99","#f5f3f2"],desc:"华丽的香槟色和珍珠色，为派对营造优雅与时尚的独特氛围。",img:"images/C04.png"}
+						]
+					},
+					{
+						name:"05美国印象派色彩",
+						cases:[
+							{colors:["#004c86","#f8c8b2","#669b76"],desc:"以印象派画家描绘的自然为灵感的配色。采用了三种色相，仍然优雅如绘画，给人色彩丰富的印象。",img:"images/C05.png"}
+						]
+					},
+					{
+						name:"06潇洒的现代艺术风",
+						cases:[
+							{colors:["#303967","#e60012","#ffe200"],desc:"名明度稍低的蓝与点睛的红决定了配色的基调，给人奔放却不失考究的印象。",img:"images/C06.png"}
+						]
+					},
+					{
+						name:"07学术氛围厚重的图书馆",
+						cases:[
+							{colors:["#462e2e","#cfaa2a","#ad722f"],desc:"深沉的茶色调使人联想到图书馆，营造古典怀旧的氛围。",img:"images/C07.png"}
+						]
+					}
+                ]
+            },
+            {
+                name: "摩登风：现代而时髦",
+                subtopics: [
+                    {
+                        name: "01冷酷的金属质感",
+                        cases: [
+                            { colors: ["#63676b", "#d2d5ec", "#4b7a7c"], desc: "对比强烈而清冷的配色，增加了设计的现代感。",img:"images/D01.png" }
+                        ]
+                    },
+					{
+						name:"02城市男孩的休闲风尚",
+						cases:[
+							{colors:["#f2a1a6","#39bcdd","#00a479"],desc:"看似随意但又很时髦的配色，让人立刻联想到都市里的时尚男子。把握流行风向的同时，不失休闲的氛围。",img:"images/D02.png"}
+						]
+					}
+                ]
+            },
+            {
+                name: "季节感：感受四季流转的配色",
+                subtopics: [
+                    {
+                        name: "01春之浪漫",
+                        cases: [
+                            { colors: ["#f3a7ac", "#dde67b", "#fce9ed"], desc: "利用配色呈现春天樱花盛放的情景，是令人心情明媚的春季色彩。",img:"images/E01.png" }
+                        ]
+                    },
+					{
+						name:"02心动少女粉",
+						cases:[
+							{colors:["#fcebef","#f6c0d1","#ef8893"],desc:"选取了柔美的粉色构成春之色彩，展现了少女的可爱。",img:"images/E02.png"}
+						]
+					},
+					{
+						name:"03柔和的浅色春天",
+						cases:[
+							{colors:["#f5b5a7","#bde1da","#feeedc"],desc:"温柔的浅色调，给人如坐春风的感觉，营造出轻盈而悠闲的氛围。",img:"images/E03.png"}
+						]
+					},
+					{
+						name:"04清爽的夏季",
+						cases:[
+							{colors:["#fdd000","#0068b7","#9fd9f6"],desc:"清凉的蓝搭配健康的黄，令人联想到神清气爽的夏天。",img:"images/E04.png"}
+						]
+					},
+					{
+						name:"05梦幻冰淇淋色",
+						cases:[
+							{colors:["#f6bab2","#ffe56d","#74b5e4"],desc:"以彩色的冰淇淋为灵感的配色。点缀夏天，营造可爱的氛围。",img:"images/E05.png"}
+						]
+					},
+					{
+						name:"06熙熙攘攘的夏日庆典",
+						cases:[
+							{colors:["#fcf7b0","#e8380d","#004c83"],desc:"令人联想到苹果糖、浴衣、提灯、金鱼等夏日庆典元素的配色。",img:"images/E06.png"}
+						]
+					},
+					{
+						name:"07微苦的古典秋色",
+						cases:[
+							{colors:["#7c2e1e","#b19962","#2a4743"],desc:"深邃的配色，稍稍泛苦，令人联想到晚秋。尤其适合非甜系的成熟设计。",img:"images/E07.png"}
+						]
+					},
+					{
+						name:"08万圣节派对氛围",
+						cases:[
+							{colors:["#601986","#c2ce00","#f18d00"],desc:"妖艳的紫、毒辣的绿、南瓜妖怪的橙、完全变成了万圣节的心情！",img:"images/E08.png"}
+						]
+					},
+					{
+						name:"09考究的圣诞用色",
+						cases:[
+							{colors:["#dcc58c","#db3a09","#478657"],desc:"金、红、绿是象征着圣诞的配色。采用明度稍高的金色，让设计更为时尚。",img:"images/E09.png"}
+						]
+					},
+					{
+						name:"10少女的情人节",
+						cases:[
+							{colors:["#8b272b","#e5006a","#ce6845"],desc:"以巧克力为灵感的棕红色搭配甜美的玫红，甜品般的配色营造热烈的节日氛围。",img:"images/E10.png"}
+						]
+					}
+					
+                ]
+            },
+            {
+                name: "和风：用色彩营造日式风情",
+                subtopics: [
+                    {
+                        name: "01轻盈温柔的樱花粉",
+                        cases: [
+                            { colors: ["#f9d6e2", "#f7f3ec", "#f4aa9a"], desc: "柔和的樱花粉，令人联想起春日阳光，能够制作出温柔的版面。",img:"images/F01.png" }
+                        ]
+                    },
+					{
+						name:"02可爱又不失雍容的京都色彩",
+						cases:[
+							{colors:["#f3deb9","#e8aaa3","#aeac78"],desc:"沉静的基调，搭配高雅又明媚的配色。华美的京都风配色，令人不禁联想起精致的和式点心。",img:"images/F02.png"}
+						]
+					},
+					{
+						name:"03朱红展现和式艳丽",
+						cases:[
+							{colors:["#e94709","#b7cdda","#c1a858"],desc:"以神社鸟居为灵感的鲜艳朱红色，富有冲击力，释放着和式风情。",img:"images/F03.png"}
+						]
+					},{
+						name:"04日式工艺色",
+						cases:[
+							{colors:["#b32425","#fffde1","#d6b845"],desc:"以日本工艺品中的漆与金箔为灵感的配色。非常适合用于营造高雅和风。",img:"images/F04.png"}
+						]
+					},{
+						name:"05漆黑与金",
+						cases:[
+							{colors:["#150c15","#9a1117","#917c50"],desc:"乌黑如漆，搭配古朴的配色，营造时髦又雅致的氛围，让设计富有高级感。",img:"images/F05.png"}
+						]
+					},{
+						name:"06吉祥正月",
+						cases:[
+							{colors:["#e02613","#f7f3e9","#deb253"],desc:"红白与金搭配，令国人联想起喜气洋洋的正月。同样是和式风情浓厚的搭配。",img:"images/F06.png"}
+						]
+					},{
+						name:"07日式精粹",
+						cases:[
+							{colors:["#b9c9c9","#1a274b","#4b6251"],desc:"低饱和度的冷色系组合，调和出平静的感觉，给人纯粹的印象。",img:"images/F07.png"}
+						]
+					},{
+						name:"08复古又时髦的和式摩登",
+						cases:[
+							{colors:["#e6dfcb","#567947","#eb5a09"],desc:"低明度的色彩才组合，营造出沁人心脾的和式风情。在此基础上点缀和风纹理，氛围会更鲜明。",img:"images/F08.png"}
+						]
+					}
+                ]
+            },
+            {
+                name: "异国风：传递异国意境的色彩",
+                subtopics: [
+                    {
+                        name: "01北欧色彩下的惬意起居",
+                        cases: [
+                            { colors: ["#254678", "#bbe3f5", "#da6a38"], desc: "明亮鲜艳的配色，令人联想到北欧织物与家具装饰。",img:"images/G01.png" }
+                        ]
+                    },
+					{
+						name:"02富有力量的亚洲风情",
+						cases:[
+							{colors:["#ea5520","#198b86","#f6d60f"],desc:"绚丽的三色组合，传递着呀亚洲的热闹与活力，使设计释放出浓烈的异国情调。",img:"images/G02.png"}
+						]
+					},
+					{
+						name:"03非洲蜡染",
+						cases:[
+							{colors:["#9f002d","#0d955a","#e7a100"],desc:"富有生命力的配色，如同非洲印花布般充满了跃动感。用色以大地和植物为灵感，特征鲜明。",img:"images/G03.png"}
+						]
+					},
+					{
+						name:"04神秘的马戏团",
+						cases:[
+							{colors:["#fedd6b","#003f67","#ad0003"],desc:"令人联想起马戏团帐篷与帘幕的蓝、红和聚光灯的黄。大胆的配色打造出新颖的设计，仿佛观看外国马戏团表演一般，让人充满了期待与惊奇感。。",img:"images/G04.png"}
+						]
+					},
+					{
+						name:"05可爱原宿风",
+						cases:[
+							{colors:["#f5b8cc","#2e69b3","#4abcb9"],desc:"充满个性的奇异配色，传递着原宿风格的世界观。。",img:"images/G05.png"}
+						]
+					}
+                ]
+            },
+            {
+                name: "商务风：用于商务场合的色彩",
+                subtopics: [
+                    {
+                        name: "01冷静的商业蓝",
+                        cases: [
+                            { colors: ["#101841", "#70acce", "#144da0"], desc: "使用冷色系呈现商务数据，更清晰直观。",img:"images/H01.png" }
+                        ]
+                    },
+					{
+						name:"02传达信息的宣传用色",
+						cases:[
+							{colors:["#68666c","#ee7d50","#d2ddde"],desc:"知性且时髦，柔和而富有亲近感的配色。以橙红作为强调色，对比强烈，冲击力十足。。",img:"images/H02.png"}
+						]
+					},
+					{
+						name:"03清新的服务性宣传配色",
+						cases:[
+							{colors:["#d4ecea","#63a6db","#a7d28f"],desc:"柔和的蓝绿色系组合，营造清爽感，以此传递舒适的服务理念。。",img:"images/H03.png"}
+						]
+					},
+					{
+						name:"04彰显高科技智能感的配色",
+						cases:[
+							{colors:["#5fc1c7","#e6e500","#1d4763"],desc:"以高饱和度的霓虹黄为强调色。非常适合用于现代高科技感的设计。。",img:"images/H04.png"}
+						]
+					},
+					{
+						name:"05近未来感的赛博世界",
+						cases:[
+							{colors:["#1e1210","#ffe200","#c3d82d"],desc:"对比强烈、冲击力十足的配色。黑色表示机械空间，黄与绿令人联想起电子屏幕的光与电线回路。。",img:"images/H05.png"}
+						]
+					},
+					{
+						name:"06热带南国度假村",
+						cases:[
+							{colors:["#9cd8f6","#e95884","#00b4b6"],desc:"以鲜明的冷色调为主，南国海景般的配色，令人联想到热带度假的感觉。充满南国风情的艳粉色是点睛之笔。。",img:"images/H06.png"}
+						]
+					},
+					{
+						name:"07引人注目的促销信息",
+						cases:[
+							{colors:["#e83820","#7dbce8","#ffe207"],desc:"想要揽客时，使用冲击力强的高饱和度颜色。强调卖点的鲜明配色，用于促销宣传，效果尤为显著。。",img:"images/H07.png"}
+						]
+					}
+                ]
+            }
+        ];
+
+
+
+        // 页面状态
+        let currentTopic = null;
+        let currentSubtopic = null;
+
+        function renderTopics() {//专题
+            currentTopic = null;
+            currentSubtopic = null;
+            let html = `<div class="topics">`;
+            data.forEach((topic, i) => {
+                html += `<div class="topic" onclick="showSubtopics(${i})">${topic.name}</div>`;
+            });
+            html += `</div>`;
+            document.getElementById('main').innerHTML = html;
+        }
+
+        function showSubtopics(topicIdx) {//小主题
+            currentTopic = topicIdx;
+            currentSubtopic = null;
+            let topic = data[topicIdx];
+            let html = `<div class="back" onclick="renderTopics()">&lt; 返回专题</div>`;
+            html += `<div class="subtopics">`;
+            topic.subtopics.forEach((sub, j) => {
+                html += `<div class="subtopic" onclick="showCases(${topicIdx},${j})">${sub.name}</div>`;
+            });
+            html += `</div>`;
+            document.getElementById('main').innerHTML = html;
+        }
+
+        function showCases(topicIdx, subIdx) {//例子
+            currentSubtopic = subIdx;
+            let topic = data[topicIdx];
+            let sub = topic.subtopics[subIdx];
+            let html = `<div class="back" onclick="showSubtopics(${topicIdx})">&lt; 返回小主题</div>`;
+            html += `<div class="cases">`;
+            sub.cases.forEach(c => {
+                html += `<div class="color-case">` +
+                        c.colors.map(color => `<div class="color-block" style="background:${color}"></div>&nbsp;<div class="color-info">${color}</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`).join('') +
+					`</div><br>`+
+                    `<div class="color-desc">${c.desc}</div>` +
+					`<br>` +
+                    `</div>` +
+					`<div class="cases">`+
+					`<div class="case-title">设计案例</div>` +
+					`<br>` +
+                    `<img class="case-img" src="${c.img}" alt="设计案例">` +
+					`</div>`;
+            });
+            html += `</div>`;
+            document.getElementById('main').innerHTML = html;
+        }
+
+        // 函数作用域变成全局
+        window.renderTopics = renderTopics;
+        window.showSubtopics = showSubtopics;
+        window.showCases = showCases;
+
+        // 初始页面展示
+        renderTopics();
+    </script>
+</body>
+</html>
